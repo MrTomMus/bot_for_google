@@ -1,1 +1,1 @@
-# bot_for_yandex
+# bot_for_google
