@@ -1,0 +1,65 @@
+// ==UserScript==
+// @name         Bot for google
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://www.google.com/*
+// @match        https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai/*
+// @match        https://crushdrummers.ru/*
+// @grant        none
+// ==/UserScript==
+
+let sites = {
+    'xn----7sbab5aqcbiddtdj1e1g.xn--p1ai': ['Гобой','Как звучит флейта', 'Кларнет','Саксофон','Тромбон','Валторна'],
+    'crushdrummers.ru': ['Барабанное шоу','Заказать барабанное шоу','Шоу барабанщиков в Москве'],
+}
+let site = Object.keys(sites)[getRandom(0, Object.keys(sites).length)]
+console.log(site);
+let keywords = sites[site];
+let keyword = keywords[getRandom(0, keywords.length)];
+console.log(keyword);
+let index = 0;
+
+
+let button = document.getElementsByName('btnK')[1];
+let inputGoogle = document.getElementsByName('q')[0];
+let nextButton = document.getElementById('pnnext');
+let buttonNextPage = document.getElementsByClassName('YyVfkd')[0];
+console.log(inputGoogle)
+console.log(button)
+
+
+if(button != undefined){
+   let interval = setInterval(() => {
+       inputGoogle.value += keyword[index];
+       index++
+       if(inputGoogle.value == keyword){
+           let timeOut = setTimeout(() => button.click(), getRandom(1000, 7000))
+           clearInterval(interval);
+       }
+}, getRandom(500, 1000));
+}else{
+    let links = document.links;
+    console.log(links.length)
+
+
+
+ for(let i = 0; i<=links.length; i++){
+        if(links[i].href.indexOf(site) != -1){
+            console.log('ссылка найдена')
+            links[i].click()
+            break;
+    }else{
+        let timeout = setTimeout(() => nextButton.click(), getRandom(2000, 5000));
+        if(buttonNextPage.innerText == 5){
+            document.location = 'https://www.google.com/'
+        }
+}
+}
+}
+
+
+function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min)+min);
+}
